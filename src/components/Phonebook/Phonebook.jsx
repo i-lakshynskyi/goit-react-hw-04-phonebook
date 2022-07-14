@@ -2,21 +2,36 @@ import React, { Component } from 'react';
 import s from './phonebook.module.css';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
+import { nanoid } from 'nanoid';
+
 
 class Phonebook extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [],
   };
+
+  componentDidMount() {
+    const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
+    if(parsedContacts){
+      this.setState({contacts: parsedContacts});
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevState.contacts !== this.state.contacts){
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   onAddContact = (data) => {
     const { name, number } = data;
-    const newId = `id-${this.state.contacts.length + 1}`;
-    this.setState({ contacts: [...this.state.contacts, { id: newId, name, number }] });
+    const id = nanoid();
+    const checkName = this.state.contacts.filter(({nameContact}) => nameContact === name);
+    if (checkName.length < 1){
+      alert(name + " is already in contacts");
+      return;
+    }
+    this.setState({ contacts: [...this.state.contacts, { id, name, number }] });
   };
 
   onRemoveContact = (removeID) => {
