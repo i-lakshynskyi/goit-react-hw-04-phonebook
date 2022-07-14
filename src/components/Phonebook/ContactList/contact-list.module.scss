@@ -1,0 +1,36 @@
+
+.contactListWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  p {
+    margin: 2px;
+  }
+
+  input {
+    padding: 5px;
+  }
+
+  ul {
+    padding: 10px;
+
+    li {
+      margin: 5px;
+      display: flex;
+      justify-content: space-between;
+      list-style-type: none;
+    }
+
+    li:before {
+      content: "*";
+    }
+
+    .delete {
+      color: red;
+      font-weight: 600;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+  }
+}

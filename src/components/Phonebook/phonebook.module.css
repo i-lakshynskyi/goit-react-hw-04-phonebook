@@ -1,0 +1,11 @@
+
+.phonebookWrapper {
+  margin: auto;
+  width: 350px;
+  padding:5px 10px 30px;
+  box-shadow: 1px 1px 5px grey;
+}
+
+h2{
+  text-align: center;
+}

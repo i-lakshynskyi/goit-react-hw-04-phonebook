@@ -1,16 +1,15 @@
-export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
-    </div>
-  );
+import React, { Component } from 'react';
+import Phonebook from './Phonebook/Phonebook';
+
+class App extends Component {
+  render() {
+    return (
+      <div
+        style={{ height: '100vh', padding: '20px' }}>
+        <Phonebook/>
+      </div>
+    );
+  }
 };
+
+export default App;
