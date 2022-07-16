@@ -26,8 +26,8 @@ class Phonebook extends Component {
   onAddContact = (data) => {
     const { name, number } = data;
     const id = nanoid();
-    const checkName = this.state.contacts.filter(({nameContact}) => nameContact === name);
-    if (checkName.length < 1){
+    const checkName = this.state.contacts.filter(contact => contact.name === name);
+    if (checkName.length > 0){
       alert(name + " is already in contacts");
       return;
     }
