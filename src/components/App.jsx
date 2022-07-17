@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Phonebook from './Phonebook/Phonebook';
 
-class App extends Component {
-  render() {
+const App = () => {
     return (
       <div
         style={{ height: '100vh', padding: '20px' }}>
-        <Phonebook/>
+        <Phonebook />
       </div>
     );
   }
-};
+;
 
 export default App;

@@ -1,53 +1,56 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import s from './contact-form.module.scss';
 
-class ContactForm extends Component {
+const ContactForm = ({onAddContact}) => {
+  const [name, setName] = React.useState('');
+  const [number, setNumber] = React.useState('');
 
-  static propTypes = {
-    onAddContact: PropTypes.func,
-  };
-
-  state = {
-    name: '',
-    number: '',
-  };
-
-  onHandlerChange = (event) => {
+  const onHandlerChange = (event) => {
     const { name, value } = event.currentTarget;
-    this.setState({ [name]: value });
+    if (name === 'name'){
+      setName(value);
+    }
+    if (name === 'number') {
+      setNumber(value);
+    }
   };
-  onSubmit = (e) => {
+
+
+  const onSubmit = (e) => {
     e.preventDefault();
-    this.props.onAddContact(this.state);
-    this.setState({name: '', number: ''});
+    onAddContact(name, number);
+    setName('');
+    setNumber('');
   };
 
-  render() {
-    return (
-      <form className={s.addContactForm} onSubmit={this.onSubmit}>
-        <label><p>Name:</p>
-          <input type='text' placeholder={'Enter name'} name='name' required value={this.state.name}
-                 onChange={this.onHandlerChange} />
-        </label>
-        <label><p>Number:</p>
-          <input
-            type='tel'
-            name='number'
-            pattern='\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}'
-            title='Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
-            required
-            placeholder={'Enter number'}
-            value={this.state.number}
-            onChange={this.onHandlerChange}
-          />
-        </label>
+  return (
+    <form className={s.addContactForm} onSubmit={onSubmit}>
+      <label><p>Name:</p>
+        <input type='text' placeholder={'Enter name'} name='name' required value={name}
+               onChange={onHandlerChange} />
+      </label>
+      <label><p>Number:</p>
+        <input
+          type='tel'
+          name='number'
+          pattern='\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}'
+          title='Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
+          required
+          placeholder={'Enter number'}
+          value={number}
+          onChange={onHandlerChange}
+        />
+      </label>
 
-        <button type={'submit'}>Add contact</button>
-      </form>
-    );
-  }
+      <button type={'submit'}>Add contact</button>
+    </form>
+  );
+};
+
+ContactForm.propTypes = {
+  onAddContact: PropTypes.func,
 };
 
 export default ContactForm;
