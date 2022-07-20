@@ -29,7 +29,7 @@ const Phonebook = () => {
     contacts: [],
     filter: '',
   }, init);
-  console.log(state.filter);
+
   const filteredContacts = state.contacts?.filter(({ name }) => {
     let nameItem = name?.toLowerCase();
     return nameItem.indexOf(state.filter.toLowerCase()) !== -1;
