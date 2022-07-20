@@ -50,7 +50,7 @@ const ContactForm = ({onAddContact}) => {
 };
 
 ContactForm.propTypes = {
-  onAddContact: PropTypes.func,
+  onAddContact: PropTypes.func.isRequired,
 };
 
 export default ContactForm;

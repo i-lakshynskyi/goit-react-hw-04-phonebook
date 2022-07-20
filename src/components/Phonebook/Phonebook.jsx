@@ -3,7 +3,6 @@ import s from './phonebook.module.css';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import { nanoid } from 'nanoid';
-import PropTypes from 'prop-types';
 
 // useReducer
 const phonebookReducer = (state, { type, payload }) => {
@@ -12,13 +11,15 @@ const phonebookReducer = (state, { type, payload }) => {
       return { ...state, contacts: [...state.contacts, payload] };
     case 'removeContact':
       return { ...state, contacts: [...payload] };
+    case 'setFilter':
+      return {...state, filter: payload}
     default:
       return new Error(`Unsupported  action type ${type}`);
   }
 };
 const init = (initState) => {
   const initLocalStorage = JSON.parse(window.localStorage.getItem('contacts'));
-  return {...initState, contacts: initLocalStorage ?? initState };
+  return {...initState, contacts: initLocalStorage ?? initState.contacts };
 };
 
 // Component Phonebook
@@ -26,7 +27,13 @@ const Phonebook = () => {
 
   const [state, dispatch] = useReducer(phonebookReducer, {
     contacts: [],
+    filter: '',
   }, init);
+  console.log(state.filter);
+  const filteredContacts = state.contacts?.filter(({ name }) => {
+    let nameItem = name?.toLowerCase();
+    return nameItem.indexOf(state.filter.toLowerCase()) !== -1;
+  });
 
   React.useEffect(() => {
       window.localStorage.setItem('contacts', JSON.stringify(state.contacts));
@@ -35,8 +42,8 @@ const Phonebook = () => {
 
   const onAddContact = (name, number) => {
     const id = nanoid();
-    const checkName = state.contacts.filter(contact => contact.name.trim().toUpperCase() === name.trim().toUpperCase());
-    if (checkName.length > 0) {
+    const checkName = state.contacts.find(contact => contact.name.trim().toUpperCase() === name.trim().toUpperCase());
+    if (checkName) {
       alert(name + ' is already in contacts');
       return;
     }
@@ -48,16 +55,18 @@ const Phonebook = () => {
     dispatch({ type: 'removeContact', payload: newContacts });
   };
 
+  const onHandlerChange = (event) => {
+    const { value } = event.currentTarget;
+    dispatch({ type: 'setFilter', payload: value });
+  };
+
   return (
     <div className={s.phonebookWrapper}>
       <h2>Phonebook</h2>
       <ContactForm onAddContact={onAddContact} />
-      <ContactList contacts={state.contacts} onRemoveContact={onRemoveContact} />
+      <ContactList contacts={filteredContacts} onRemoveContact={onRemoveContact} filter={state.filter} onHandlerChange={onHandlerChange}/>
     </div>
   );
 };
 
-Phonebook.propTypes = {
-  contacts: PropTypes.arrayOf(PropTypes.object),
-}
 export default Phonebook;

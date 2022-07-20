@@ -17,18 +17,15 @@
 
     li {
       margin: 5px;
-
-      .info {
-        display: grid;
-        grid-template-columns: 5fr 4fr 2fr;
-      }
+      display: flex;
+      justify-content: space-between;
     }
+  }
 
-    .delete {
-      color: red;
-      font-weight: 600;
-      margin: 0 10px;
-      cursor: pointer;
-    }
+  .delete {
+    color: orange;
+    font-weight: 600;
+    margin: 0 10px;
+    cursor: pointer;
   }
 }
